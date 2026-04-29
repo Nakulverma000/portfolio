@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Verma Ji Store - Fresh & Organic</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,600;1,600&family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
+    <style>
+        [x-cloak] { display: none !important; }
+        .font-serif { font-family: 'Cormorant Garamond', serif; }
+        .font-sans { font-family: 'Inter', sans-serif; }
+        
+        /* Smooth scrolling */
+        html { scroll-behavior: smooth; }
+
+        /* Custom checkout animation */
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0px); }
+        }
+        .float { animation: float 3s ease-in-out infinite; }
+    </style>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            green: '#2D5A27',
+                            orange: '#F59E0B',
+                            berry: '#9D174D',
+                            cream: '#FCFAF7',
+                            leaf: '#4ADE80'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-brand-cream font-sans text-slate-800" x-data="store()">
+
+    <!-- Download Header (Sticky) -->
+    <div class="bg-brand-green text-white py-2 px-4 flex justify-between items-center sticky top-0 z-50 shadow-md">
+        <div class="flex items-center gap-2">
+            <i data-lucide="download" class="w-4 h-4"></i>
+            <span class="text-xs font-bold uppercase tracking-widest">Self-Contained File</span>
+        </div>
+        <button @click="downloadFile()" class="bg-white text-brand-green px-4 py-1 rounded-full text-xs font-black hover:bg-brand-orange hover:text-white transition-all transform hover:scale-105">
+            DOWNLOAD THIS PAGE
+        </button>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="bg-white/90 backdrop-blur-md border-b border-brand-green/10 h-20 flex items-center">
+        <div class="max-w-7xl mx-auto px-4 w-full flex justify-between items-center">
+            <div class="flex items-center gap-2">
+                <div class="bg-brand-green p-2 rounded-xl">
+                    <i data-lucide="leaf" class="text-white w-6 h-6"></i>
+                </div>
+                <div>
+                    <h1 class="font-serif text-2xl font-bold text-brand-green leading-none">VERMA JI STORE</h1>
+                    <p class="text-[10px] uppercase tracking-widest text-brand-orange font-black">Shuddh & Swasth</p>
+                </div>
+            </div>
+
+            <div class="hidden md:flex gap-8 font-bold text-sm uppercase tracking-tighter">
+                <a href="#" class="hover:text-brand-green transition-colors">Home</a>
+                <a href="#shop" class="hover:text-brand-green transition-colors">Market</a>
+                <a href="#" class="hover:text-brand-green transition-colors">About</a>
+            </div>
+
+            <div class="flex items-center gap-4">
+                <button @click="isCartOpen = true" class="relative p-2 bg-brand-cream rounded-full hover:bg-brand-green hover:text-white transition-all">
+                    <i data-lucide="shopping-bag" class="w-6 h-6"></i>
+                    <span x-show="cartCount > 0" x-text="cartCount" class="absolute -top-1 -right-1 bg-brand-berry text-white text-[10px] font-bold w-5 h-5 rounded-full flex items-center justify-center border-2 border-white"></span>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero -->
+    <header class="relative bg-gradient-to-br from-brand-green to-emerald-900 py-20 px-4 overflow-hidden">
+        <div class="absolute inset-0 opacity-10">
+            <img src="https://images.unsplash.com/photo-1542838132-92c53300491e?auto=format&fit=crop&q=80&w=1000" class="w-full h-full object-cover" alt="">
+        </div>
+        <div class="max-w-7xl mx-auto relative z-10 flex flex-col md:flex-row items-center gap-12">
+            <div class="flex-1 text-center md:text-left">
+                <span class="inline-block px-4 py-1 bg-brand-orange text-white text-[10px] font-black uppercase tracking-[0.3em] rounded-full mb-6">Local Fast Delivery</span>
+                <h2 class="font-serif text-5xl md:text-7xl text-white mb-6 leading-tight">
+                    Freshness You Can <br> <span class="italic text-brand-leaf underline decoration-brand-orange">Feel</span>
+                </h2>
+                <p class="text-brand-cream/80 text-lg mb-8 max-w-xl">
+                    Get premium organic vegetables, fruits, and dairy delivered from Verma Ji's farm to your kitchen in just 2 hours.
+                </p>
+                <div class="flex flex-wrap gap-4 justify-center md:justify-start">
+                    <a href="#shop" class="bg-white text-brand-green px-8 py-4 rounded-full font-black text-sm hover:bg-brand-orange hover:text-white transition-all shadow-2xl">START SHOPPING</a>
+                    <div class="flex items-center gap-3 text-white/80">
+                        <i data-lucide="phone-call" class="w-5 h-5 text-brand-orange"></i>
+                        <span class="font-bold">+91 98XXX-XXXXX</span>
+                    </div>
+                </div>
+            </div>
+            <div class="flex-1 hidden lg:block">
+                <img src="https://images.unsplash.com/photo-1610348725531-843dff563e2c?auto=format&fit=crop&q=80&w=600" class="rounded-[40px] shadow-2xl rotate-3 hover:rotate-0 transition-transform duration-700 border-8 border-white/10" alt="">
+            </div>
+        </div>
+    </header>
+
+    <!-- Shop -->
+    <main id="shop" class="max-w-7xl mx-auto px-4 py-20">
+        <div class="flex flex-col md:flex-row justify-between items-end gap-8 mb-12">
+            <div>
+                <h3 class="font-serif text-4xl text-brand-green mb-2">Today's Fresh Picks</h3>
+                <div class="h-1 w-20 bg-brand-orange rounded-full"></div>
+            </div>
+            <div class="flex gap-2 overflow-x-auto pb-4 w-full md:w-auto">
+                <template x-for="cat in categories">
+                    <button 
+                        @click="activeCategory = cat" 
+                        class="px-6 py-2 rounded-full text-xs font-black uppercase tracking-widest transition-all border-2"
+                        :class="activeCategory === cat ? 'bg-brand-green border-brand-green text-white' : 'bg-white border-slate-200 text-slate-500 hover:border-brand-green'"
+                        x-text="cat">
+                    </button>
+                </template>
+            </div>
+        </div>
+
+        <!-- Product Grid -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+            <template x-for="product in filteredProducts()" :key="product.id">
+                <div class="group bg-white rounded-3xl overflow-hidden shadow-sm hover:shadow-2xl transition-all duration-500 border border-slate-100 flex flex-col">
+                    <div class="h-64 overflow-hidden relative">
+                        <img :src="product.image" :alt="product.name" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
+                        <div class="absolute top-4 left-4 bg-white/90 backdrop-blur px-3 py-1 rounded-full text-[10px] font-black text-brand-green shadow-sm" x-text="product.category"></div>
+                    </div>
+                    <div class="p-6 flex-grow flex flex-col">
+                        <div class="flex justify-between items-center mb-1">
+                            <h4 class="font-serif text-xl font-bold text-slate-800" x-text="product.name"></h4>
+                            <span class="text-brand-berry font-black text-lg">₹<span x-text="product.price"></span></span>
+                        </div>
+                        <p class="text-[10px] uppercase tracking-widest text-slate-400 font-bold mb-4" x-text="'Per ' + product.unit"></p>
+                        <p class="text-xs text-slate-500 mb-6 flex-grow" x-text="product.description"></p>
+                        <button 
+                            @click="addToCart(product)"
+                            class="w-full bg-brand-cream border-2 border-brand-green/20 text-brand-green py-3 rounded-xl font-black text-xs hover:bg-brand-green hover:text-white hover:border-brand-green transition-all flex items-center justify-center gap-2">
+                            <i data-lucide="plus" class="w-3 h-3"></i>
+                            ADD TO BASKET
+                        </button>
+                    </div>
+                </div>
+            </template>
+        </div>
+    </main>
+
+    <!-- Cart Drawer -->
+    <div x-cloak x-show="isCartOpen" class="fixed inset-0 z-50 flex justify-end">
+        <div x-show="isCartOpen" x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100" class="absolute inset-0 bg-slate-900/60 backdrop-blur-sm" @click="isCartOpen = false"></div>
+        
+        <div x-show="isCartOpen" x-transition:enter="transition ease-out duration-300 transform" x-transition:enter-start="translate-x-full" x-transition:enter-end="translate-x-0" class="relative w-full max-w-md bg-white h-full shadow-2xl flex flex-col">
+            <div class="p-6 border-b flex justify-between items-center bg-brand-green text-white">
+                <h3 class="font-serif text-2xl">Vishwaas Ki Basket (<span x-text="cartCount"></span>)</h3>
+                <button @click="isCartOpen = false" class="p-2 hover:bg-white/10 rounded-full"><i data-lucide="x" class="w-6 h-6"></i></button>
+            </div>
+
+            <div class="flex-grow overflow-y-auto p-6 space-y-6">
+                <template x-if="cart.length === 0">
+                    <div class="h-full flex flex-col items-center justify-center text-slate-300 italic">
+                        <i data-lucide="shopping-cart" class="w-16 h-16 mb-4 opacity-20"></i>
+                        <p>Basket khali hai ji!</p>
+                    </div>
+                </template>
+                
+                <template x-for="item in cart" :key="item.id">
+                    <div class="flex gap-4 items-center">
+                        <img :src="item.image" class="w-16 h-16 rounded-xl object-cover" alt="">
+                        <div class="flex-grow">
+                            <div class="flex justify-between items-start">
+                                <h5 class="font-bold text-slate-800 text-sm" x-text="item.name"></h5>
+                                <span class="text-brand-berry font-black text-sm" x-text="'₹' + (item.price * item.quantity)"></span>
+                            </div>
+                            <div class="flex items-center justify-between mt-2">
+                                <div class="flex items-center gap-3 bg-slate-100 px-3 py-1 rounded-full text-xs font-bold">
+                                    <button @click="changeQty(item.id, -1)" class="hover:text-brand-green">-</button>
+                                    <span x-text="item.quantity" class="w-4 text-center"></span>
+                                    <button @click="changeQty(item.id, 1)" class="hover:text-brand-green">+</button>
+                                </div>
+                                <button @click="removeItem(item.id)" class="text-slate-400 hover:text-red-500"><i data-lucide="trash-2" class="w-4 h-4"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                </template>
+            </div>
+
+            <div class="p-6 bg-slate-50 border-t" x-show="cart.length > 0">
+                <div class="flex justify-between items-center mb-6">
+                    <span class="text-xs font-black uppercase text-slate-400">Total Amount</span>
+                    <span class="text-3xl font-serif font-bold text-brand-green">₹<span x-text="cartTotal"></span></span>
+                </div>
+                <button class="w-full bg-brand-orange text-white py-4 rounded-2xl font-black shadow-lg hover:scale-[1.02] active:scale-95 transition-all">
+                    PLACE ORDER NOW
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-slate-900 text-slate-400 py-16 px-4">
+        <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-12 text-center md:text-left">
+            <div>
+                <h1 class="font-serif text-3xl font-bold text-brand-leaf mb-2">VERMA JI STORE</h1>
+                <p class="max-w-sm">From farm to your doorstep. Pure, organic, and always colorful. Support your local Verma Ji!</p>
+            </div>
+            <div class="flex gap-4">
+                <div class="bg-white/5 p-4 rounded-full hover:bg-white/10 transition-colors"><i data-lucide="instagram"></i></div>
+                <div class="bg-white/5 p-4 rounded-full hover:bg-white/10 transition-colors"><i data-lucide="facebook"></i></div>
+                <div class="bg-white/5 p-4 rounded-full hover:bg-white/10 transition-colors"><i data-lucide="twitter"></i></div>
+            </div>
+        </div>
+        <p class="text-center text-[10px] mt-12 uppercase tracking-[0.4em] font-bold">Made with â¡ for Verma Ji Family</p>
+    </footer>
+
+    <script>
+        function store() {
+            return {
+                isCartOpen: false,
+                activeCategory: 'All',
+                categories: ['All', 'Vegetables', 'Fruits', 'Dairy', 'Bakery'],
+                cart: [],
+                products: [
+                    { id: 1, name: 'Taza Palak', price: 35, unit: '250g', category: 'Vegetables', image: 'https://images.unsplash.com/photo-1576045057995-568f588f82fb?auto=format&fit=crop&q=80&w=400', description: 'Fresh green organic spinach for healthy iron intake.' },
+                    { id: 2, name: 'Swaadist Tamatar', price: 40, unit: '1kg', category: 'Vegetables', image: 'https://images.unsplash.com/photo-1592924357228-91a4daadcfea?auto=format&fit=crop&q=80&w=400', description: 'Red juicy tomatoes perfect for your dal and sabzi.' },
+                    { id: 3, name: 'Alphonso Aam', price: 600, unit: '12 pcs', category: 'Fruits', image: 'https://images.unsplash.com/photo-1553279768-865429fa0078?auto=format&fit=crop&q=80&w=400', description: 'The original Ratnagiri Hapus. Sweet like honey.' },
+                    { id: 4, name: 'Shimla Saib', price: 180, unit: '1kg', category: 'Fruits', image: 'https://images.unsplash.com/photo-1560806887-1e4cd0b6bccb?auto=format&fit=crop&q=80&w=400', description: 'Crunchy Himalayan apples delivered fresh.' },
+                    { id: 5, name: 'Gaay Ka Doodh', price: 65, unit: '1L', category: 'Dairy', image: 'https://images.unsplash.com/photo-1550583724-12770d99a628?auto=format&fit=crop&q=80&w=400', description: 'Farm fresh whole cow milk, no preservatives.' },
+                    { id: 6, name: 'Organic Ande', price: 90, unit: '6 pcs', category: 'Dairy', image: 'https://images.unsplash.com/photo-1582722872445-44c567c318d6?auto=format&fit=crop&q=80&w=400', description: 'Healthiest free-range organic brown eggs.' },
+                    { id: 7, name: 'Multigrain Bread', price: 120, unit: '400g', category: 'Bakery', image: 'https://images.unsplash.com/photo-1585478259715-873aa2ec9fba?auto=format&fit=crop&q=80&w=400', description: 'Freshly baked artisanal bread for a healthy start.' }
+                ],
+                
+                init() {
+                    lucide.createIcons();
+                },
+
+                filteredProducts() {
+                    if (this.activeCategory === 'All') return this.products;
+                    return this.products.filter(p => p.category === this.activeCategory);
+                },
+
+                get cartTotal() {
+                    return this.cart.reduce((total, item) => total + (item.price * item.quantity), 0);
+                },
+
+                get cartCount() {
+                    return this.cart.reduce((count, item) => count + item.quantity, 0);
+                },
+
+                addToCart(product) {
+                    const existing = this.cart.find(i => i.id === product.id);
+                    if (existing) {
+                        existing.quantity++;
+                    } else {
+                        this.cart.push({ ...product, quantity: 1 });
+                    }
+                    this.isCartOpen = true;
+                },
+
+                changeQty(id, delta) {
+                    const item = this.cart.find(i => i.id === id);
+                    if (item) {
+                        item.quantity = Math.max(1, item.quantity + delta);
+                    }
+                },
+
+                removeItem(id) {
+                    this.cart = this.cart.filter(i => i.id !== id);
+                },
+
+                downloadFile() {
+                    const htmlContent = document.documentElement.outerHTML;
+                    const blob = new Blob([htmlContent], { type: 'text/html' });
+                    const url = URL.createObjectURL(blob);
+                    const a = document.createElement('a');
+                    a.href = url;
+                    a.download = 'Verma_Ji_Store.html';
+                    document.body.appendChild(a);
+                    a.click();
+                    document.body.removeChild(a);
+                    URL.revokeObjectURL(url);
+                }
+            }
+        }
+    </script>
+</body>
+</html>
